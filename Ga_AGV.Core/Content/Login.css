@@ -1,0 +1,230 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    border: 0px;
+    text-decoration: none;
+}
+
+.main-bg {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: -1;
+    margin-top: 0px;
+}
+
+.main-bg img {
+    width: 100%;
+    height: 100%;
+}
+
+.main-top {
+    width: 100%;
+    height: 80px;
+    /*margin-top: 40px;*/
+    line-height: 80px;
+    text-align: center;
+}
+
+.main-middle {
+    width: 100%;
+    font-size: 60px;
+    height: 150px;
+    /*margin-top: 10px;*/
+    line-height: 150px;
+    text-align: center;
+    font-family: "微软雅黑";
+    font-weight: bold;
+}
+
+.main-middle-count {
+    height: 150px;
+    width: 100%;
+    margin: 0px auto;
+    line-height: 150px;
+}
+
+.main-centre {
+    width: 100%;
+    height: 400px;
+}
+
+.main-centre-count {
+    width: 100%;
+    height: 300px;
+    margin: 0px auto;
+    background-color: #808080;
+    /*opacity:0.4;*/
+    margin-top: 6px;
+    border-radius: 2%;
+    -moz-box-shadow: 3px 3px 8px #333333;
+    -webkit-box-shadow: 3px 3px 8px #333333;
+    box-shadow: 3px 3px 8px #333333;
+    padding-top:55px;
+
+}
+
+.main-centre-count ul {
+    height: 300px;
+}
+
+.main-centre-count ul li {
+    height: 100px;
+    line-height: 100px;
+    position: relative;
+    display: block;
+    text-align: center;
+}
+
+.main-centre-count ul li input {
+    position: absolute;
+    top: 30px;
+    left: 60px;
+    width: 100%;
+    margin: 0px auto;
+}
+
+.main-bottom {
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #8a8888;
+    margin-top: 16px;
+}
+
+.main-group {
+    width: 80%;
+    margin: 0px auto;
+    height: 80px;
+    line-height: 80px;
+}
+
+.main-form {
+    width: 100%;
+    margin: 0px auto;
+    height: 80px;
+}
+.inut-main {
+    width:80%;
+    margin:0px auto;
+}
+.main-count {
+    width: 580px;
+    height: 70%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+/* 小屏幕 */
+@media all and (max-width: 1200px) {
+
+    .main-count {
+        width: 65%;
+        height: 70%;
+    }
+}
+
+/* 小屏幕 */
+@media all and (max-width: 1200px) {
+
+    .main-count {
+        width: 57%;
+        height: 70%;
+    }
+}
+
+/* 平板 */
+@media all and (max-width: 1024px) {
+
+    .main-count {
+        width: 62%;
+        height: 70%;
+    }
+    .main-middle {
+        width: 100%;
+        font-size: 50px;
+        height: 150px;
+        /*margin-top: 10px;*/
+        line-height: 150px;
+        text-align: center;
+        font-family: "微软雅黑";
+        font-weight: bold;
+    }
+    .main-middle-count {
+        height: 150px;
+        width: 100%;
+        margin: 0px auto;
+        line-height: 150px;
+    }
+}
+
+/* 手机 */
+@media all and (max-width: 768px) {
+    .main-count {
+        width: 90%;
+        height: 65%;
+    }
+    .main-middle {
+        width: 100%;
+        font-size: 40px;
+        height: 100px;
+        /*margin-top: 10px;*/
+        line-height: 100px;
+        text-align: center;
+        font-family: "微软雅黑";
+        font-weight: bold;
+    }
+
+    .main-middle-count {
+        height: 100px;
+        width: 100%;
+        margin: 0px auto;
+        line-height: 100px;
+    }
+
+    .main-top {
+        width: 100%;
+        height: 80px;
+        /*margin-top: 40px;*/
+        line-height: 80px;
+        text-align: center;
+    }
+
+    .main-centre-count {
+        height: 260px;
+        padding-top: 52px;
+    }
+    .main-group {
+        height:65px;
+        line-height: 65px;
+    }
+}
+
+/* 超小屏幕（苹果SE） */
+@media all and (max-width: 340px) {
+
+    .main-middle {
+        width: 100%;
+        font-size: 32px;
+        height: 86px;
+        /*margin-top: 10px;*/
+        line-height: 86px;
+        text-align: center;
+        font-family: "微软雅黑";
+        font-weight: bold;
+    }
+
+    .main-middle-count {
+        height: 86px;
+        width: 100%;
+        margin: 0px auto;
+        line-height: 86px;
+    }
+
+}

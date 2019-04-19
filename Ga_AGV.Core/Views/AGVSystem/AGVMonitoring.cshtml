@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "AGVMonitoring";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewBag.PageTitle = "AGV系统";
+    ViewBag.PageColumn = "运行监控";
+}
+<link href="~/Content/AGVMonitoring.css" rel="stylesheet" />
+<div>
+    <div class="count-panel" style="width:100%;margin:0px auto;">
+        <div class="panel panel-default">
+            <div class="panel-heading " id="pal-text"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span>&nbsp;AGV监控</div>
+            <div class="panel-body">
+                <div class="Control-lefts">
+                    <div class="form-group">
+                        <button id="button_all" type="button" class="btn btn-primary">显示全部AGV</button>
+                    </div>
+                    <div class="form-group">
+                        <select id="combobox_agv" class="selectpicker show-tick form-control" data-live-search="true"></select>
+                    </div>
+                    <div class="count-panel" style="padding:3px;text-align:center;">
+                        <div class="x_title">
+                            <h2 style="font-size:18px;margin-top:10px;">基本信息</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix">
+                            <div style="width:100%;">
+                                <ul class="Control-li clearfix-ul">
+                                    <li class="clearfix-li">编号</li>
+                                    <li class="clearfix-count" id="agvNum">1号</li>
+                                    <li class="clearfix-li">状态</li>
+                                    <li class="clearfix-count" id="agvIsRunning">在线</li>
+                                </ul>
+                                <ul class="Control-li clearfix-ul">
+                                    <li class="clearfix-li">二维码</li>
+                                    <li class="clearfix-count clearfix-width info-width" id="qrcode">1</li>
+                                </ul>
+                                <ul class="Control-li clearfix-ul">
+                                    <li class="clearfix-li">PBS</li>
+                                    <li class="clearfix-count" id="PBS">区域1</li>
+                                    <li class="clearfix-li">云台</li>
+                                    <li class="clearfix-count" id="agvHolder">上升</li>
+                                </ul>
+                                <ul class="Control-li clearfix-ul">
+                                    <li class="clearfix-li">报警信息</li>
+                                    <li class="clearfix-count clearfix-width info-width" id="Message">正常</li>
+                                </ul>
+                                <ul class="Control-li clearfix-ul">
+                                    <li class="clearfix-li">当前位置</li>
+                                    <li class="clearfix-count" id="agvQR">1</li>
+                                    <li class="clearfix-li">当前任务</li>
+                                    <li class="clearfix-count" id="Task">运输</li>
+                                </ul>
+                                <ul class="Control-li clearfix-ul">
+                                    <li class="clearfix-li">出发地</li>
+                                    <li class="clearfix-count" id="taskStartQR">1</li>
+                                    <li class="clearfix-li">目的地</li>
+                                    <li class="clearfix-count" id="taskEndQR">1</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Control-right">
+                    <canvas id="canvas" style="border:#EDEDED solid 1px">您当前的浏览器版本不支持此功能</canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var Wid = 0; var Hei = 0; var ShowAgvInfo; var ShowAgvInfo_all;
+    var ar = new Array();
+
+    $(function () {
+        $.ajax({
+            type: "post",
+            url: "/api/agvlist/agv",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    $("<option value=' " + item.agvNum + "'>AGV " + item.agvNum + "</option>").appendTo("#combobox_agv.selectpicker");//用appendTo声明是给谁的值
+                });
+                $('#combobox_agv').selectpicker('refresh');
+            }
+        });
+
+        $.ajax({
+            url: '/api/AGVSystem/ShowPlace',
+            type: "post",
+            contentType: 'application/json',
+            success: function (data) {
+                Wid = data.map_X; Hei = data.map_Y;
+                ShowQR(Wid, Hei, data.rows);
+                ShowAgvInfo_all = setInterval(function () {
+                    ShowAGV_all(data.rows);
+                }, 1000);
+                for (var i = 0; i < data.rows.length; i++) {
+                    ar.push(data.rows[i])
+                }
+                //console.log(ar);
+            }
+        });
+
+        $("#button_all").click(function () {
+            clearInterval(ShowAgvInfo_all); clearInterval(ShowAgvInfo);
+            ShowAgvInfo_all = setInterval(function () {
+                ShowAGV_all(ar);
+            }, 1000);
+        });
+
+        $("#combobox_agv").on('change', function () {
+            clearInterval(ShowAgvInfo_all); clearInterval(ShowAgvInfo);
+            ShowAgvInfo = setInterval(function () {
+                ShowAGV(ar, document.getElementById("combobox_agv").value);
+            }, 1000);
+        });
+
+        function ShowQR(Wid, Hei, ar) {
+            var canvas = document.getElementById('canvas');
+            canvas.width = Wid;
+            canvas.height = Hei;
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d"),
+                    width = canvas.width,
+                    height = canvas.height;
+                for (var i = 0; i < ar.length; i++) {
+                    ctx.beginPath();
+                    ctx.arc(ar[i].qrX, ar[i].qrY, (Wid / 65), 0, 2 * Math.PI, false);
+                    ctx.closePath(); //关闭路径
+                    if (ar[i].qrStatus == 1) {
+                        ctx.fillStyle = "#528B8B";
+                    } else {
+                        ctx.fillStyle = "red";
+                    }
+                    ctx.fill();//填充
+                    ctx.font = "10pt 微软雅黑";
+                    ctx.fillStyle = "#E6E6FA";
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(ar[i].qrInfo, ar[i].qrX, ar[i].qrY);
+                }
+            }
+        };
+
+        function ShowAGV(ar, Num) {
+            $.ajax({
+                url: '/api/AGVSystem/AGVlocation',
+                type: "post",
+                data: JSON.stringify({ "agvNum": agvNum }),
+                contentType: 'application/json',
+                success: function (data) {
+                    console.log(data[Number(Num) - 1]);
+                    $("#agvNum").text(data[Number(Num) - 1].agvNum);
+                    $("#agvIsRunning").text(data[Number(Num) - 1].agvIsRunning);
+                    $("#qrcode").text(data[Number(Num) - 1].qrcode);
+                    $("#PBS").text(data[Number(Num) - 1].PBS);
+                    $("#agvHolder").text(data[Number(Num) - 1].agvHolder);
+                    $("#Message").text(data[Number(Num) - 1].Message);
+                    $("#agvQR").text(data[Number(Num) - 1].agvQR);
+                    $("#Task").text(data[Number(Num) - 1].Task);
+                    $("#taskStartQR").text(data[Number(Num) - 1].taskStartQR);
+                    $("#taskEndQR").text(data[Number(Num) - 1].taskEndQR);
+                    var canvas = document.getElementById('canvas');
+                    var ctx = canvas.getContext("2d");
+                    var img = new Image();
+                    if (data.Message != "正常") { img.src = "../Scripts/AGVSystem/agv机器人红.jpg" }
+                    else { img.src = "../Scripts/AGVSystem/agv机器人蓝.jpg" }
+                    ShowQR(Wid, Hei, ar);
+                    ctx.drawImage(img, ar[data[Number(Num) - 1].agvQR].qrX - 25, ar[data[Number(Num) - 1].agvQR].qrY - 25, 50, 50);
+                }
+            });
+        };
+
+        function ShowAGV_all(ar) {
+            $.ajax({
+                url: '/api/AGVSystem/AGVlocation',
+                type: "post",
+                data: JSON.stringify({ "agvNum": agvNum }),
+                contentType: 'application/json',
+                success: function (data) {
+                    //console.log(data);
+                    $("#agvNum").text(data[0].agvNum);
+                    $("#agvIsRunning").text(data[0].agvIsRunning);
+                    $("#qrcode").text(data[0].qrcode);
+                    $("#PBS").text(data[0].PBS);
+                    $("#agvHolder").text(data[0].agvHolder);
+                    $("#Message").text(data[0].Message);
+                    $("#agvQR").text(data[0].agvQR);
+                    $("#Task").text(data[0].Task);
+                    $("#taskStartQR").text(data[0].taskStartQR);
+                    $("#taskEndQR").text(data[0].taskEndQR);
+                    var canvas = document.getElementById('canvas');
+                    var ctx = canvas.getContext("2d");
+                    var img = new Image();
+                    ShowQR(Wid, Hei, ar);//重绘二维码画布
+                    $.each(data, function (index, item) {
+                        if (item.Message != "正常") { img.src = "../Scripts/AGVSystem/agv机器人红.jpg" }
+                        else { img.src = "../Scripts/AGVSystem/agv机器人蓝.jpg" }
+                        ctx.drawImage(img, ar[item.agvQR - 1].qrX - 25, ar[item.agvQR - 1].qrY - 25, 50, 50);
+
+                        console.log(data[index]);
+                        ctx.font = "bold 12pt 微软雅黑";
+                        ctx.fillStyle = "#0A0A0A";
+                        ctx.textAlign = 'center';//center
+                        ctx.textBaseline = 'Bottom';//middle
+                        ctx.fillText(data[index].agvNum, ar[item.agvQR - 1].qrX, ar[item.agvQR - 1].qrY);
+                    });
+                }
+            });
+        };
+    })
+</script>

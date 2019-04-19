@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ga_AGV.WEB", "Ga_AGV.Core\Ga_AGV.WEB.csproj", "{BA2966A0-14EC-4BE6-A021-1A25CBB4EB65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ga_AGV.Model", "Ga_AGV.Model\Ga_AGV.Model.csproj", "{2ABAEA35-390F-453C-9350-71FDD2D5A4BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ga_AGV.DAL", "Ga_AGV.DAL\Ga_AGV.DAL.csproj", "{69D812EB-77B4-403D-86BF-5253AC3EE83C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ga_AGV.BLL", "Ga_AGV.BLL\Ga_AGV.BLL.csproj", "{2844DA55-3820-4957-8BB2-5A2B8180313D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commonality", "Commonality\Commonality.csproj", "{561E98D5-21AF-4492-B98A-812BE43683EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ga_AGV.TCPListener", "Ga_AGV.TCPListener\Ga_AGV.TCPListener.csproj", "{78A5243B-B18A-49BC-B260-906FA6229981}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA2966A0-14EC-4BE6-A021-1A25CBB4EB65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA2966A0-14EC-4BE6-A021-1A25CBB4EB65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA2966A0-14EC-4BE6-A021-1A25CBB4EB65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA2966A0-14EC-4BE6-A021-1A25CBB4EB65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ABAEA35-390F-453C-9350-71FDD2D5A4BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ABAEA35-390F-453C-9350-71FDD2D5A4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ABAEA35-390F-453C-9350-71FDD2D5A4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ABAEA35-390F-453C-9350-71FDD2D5A4BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69D812EB-77B4-403D-86BF-5253AC3EE83C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69D812EB-77B4-403D-86BF-5253AC3EE83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69D812EB-77B4-403D-86BF-5253AC3EE83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69D812EB-77B4-403D-86BF-5253AC3EE83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2844DA55-3820-4957-8BB2-5A2B8180313D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2844DA55-3820-4957-8BB2-5A2B8180313D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2844DA55-3820-4957-8BB2-5A2B8180313D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2844DA55-3820-4957-8BB2-5A2B8180313D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{561E98D5-21AF-4492-B98A-812BE43683EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{561E98D5-21AF-4492-B98A-812BE43683EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{561E98D5-21AF-4492-B98A-812BE43683EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{561E98D5-21AF-4492-B98A-812BE43683EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78A5243B-B18A-49BC-B260-906FA6229981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78A5243B-B18A-49BC-B260-906FA6229981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78A5243B-B18A-49BC-B260-906FA6229981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78A5243B-B18A-49BC-B260-906FA6229981}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E204A9FA-0820-4B31-BD9B-81EEA6C24A9D}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "TaskLog";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewBag.PageTitle = "统计数据";
+    ViewBag.PageColumn = "任务日志";
+}
+<div class="count-panel" style="width:100%;margin:0px auto;">
+    <div class="clearfix">
+        <div class="panel-body" style="padding:0px;">
+            <div class="panel panel-default">
+                <div class="panel-heading" id="pal-text">
+                    <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>查询条件<a href="javascript:;"  id="btn_query" style="float:right;text-decoration:none"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;查询</a>
+                </div>
+                <div class="panel-body">
+                    <form id="formSearch" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-1" for="txt_search_desc">日志时间：</label>
+                            <div class="col-md-3">
+                                <div class="input-group date log_datetime col-sm-12" data-link-field="dt_set_order_time_input">
+                                    <input class="form-control" id="tasklog_time" disabled type="text" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                            <label class="control-label col-sm-1" for="txt_search_desc">开始时间：</label>
+                            <div class="col-md-3">
+                                <div class="input-group date form_datetime col-sm-12" data-link-field="dt_set_order_time_input">
+                                    <input class="form-control" id="start_time" disabled type="text" value="">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                            <label class="control-label col-sm-1" for="txt_search_desc">截止时间：</label>
+                            <div class=" col-sm-3">
+                                <div class="input-group date form_datetime col-sm-12" data-link-field="dt_set_order_time_input">
+                                    <input class="form-control" id="end_time" disabled type="text" value="" />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-1" for="txt_search_rolename">AGV编号：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="AGV_Number">
+                            </div>
+                            <label class="control-label col-sm-1" for="txt_search_desc">任务状态</label>
+                            <div class="col-sm-3">
+                                <select id="taskComplete" class="selectpicker show-tick form-control" data-live-search="false">
+                                    <option>全部</option>
+                                    <option>已完成</option>
+                                    <option>已取消</option>
+                                    <option>进行中</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" id="pal-text">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                数据表格
+            </div>
+            <div class="panel-body">
+                <table id="tb_report"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.log_datetime').datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        language: 'zh-CN',
+        format: 'yyyy-mm-dd',
+        todayBtn: 1,
+        autoclose: 1,
+    });
+    $(".form_datetime").
+        datetimepicker({
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            language: 'zh-CN',
+            format: 'hh:ii:ss',
+            pickerPosition: 'bottom-left',
+            showMeridian: 1
+        });
+    $(function () {
+
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+
+        //条件查询click事件注册
+        $("#btn_query").click(function () {
+            $("#tb_report").bootstrapTable('refresh');
+        });
+
+    });
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#tb_report').bootstrapTable({
+                url: '/API/TaskLog/TaskLog',        //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100, 500],        //可供选择的每页的行数（*）
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端
+                strictSearch: true,
+                showColumns: true,                  //是否显示所有的列
+                showRefresh: true,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,
+                columns: [{
+                    field: 'TaskLogTime',
+                    title: '日志记录时间',
+                    align: 'center'
+                }, {
+                    field: 'TaskName',
+                    title: '任务名',
+                    align: 'center'
+                }, {
+                    field: 'TaskAgvNum',
+                    title: 'AGV编号',
+                    align: 'center'
+                }, {
+                    field: 'TaskAgvSerialNo',
+                    title: 'AGV序列号',
+                    align: 'center'
+                }, {
+                    field: 'TaskStartQr',
+                    title: '开始二维码',
+                    align: 'center'
+                }, {
+                    field: 'TaskStartX',
+                    title: '开始X轴距离',
+                    align: 'center'
+                }, {
+                    field: 'TaskStartY',
+                    title: '开始Y轴距离',
+                    align: 'center'
+                }, {
+                    field: 'TaskEndQr',
+                    title: '结束二维码',
+                    align: 'center'
+                }, {
+                    field: 'TaskEndX',
+                    title: '结束X轴距离',
+                    align: 'center'
+                }, {
+                    field: 'TaskEndY',
+                    title: '结束Y轴距离',
+                    align: 'center'
+                }, {
+                    field: 'TaskComplete',
+                    title: '任务状态',
+                        align: 'center', formatter: function (value, row, index) {
+                            if (value == null) {
+                                return "全部";
+                            } if (value == '1') {
+                                return "<span class='label label-success'>已完成</span>";
+                            } if (value == '2') {
+                                return "<span class='label label-errer'>已取消</span>";
+                            } if (value == '3') {
+                                return "<span class='label label-move'>进行中</span>";
+                            } 
+                        }
+                }, {
+                    field: 'TaskEndTime',
+                    title: '任务结束时间',
+                    align: 'center'
+                },
+                ]
+            });
+        };
+
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit: params.limit,   //页面大小
+                offset: params.offset,  //页码
+                Time: $('#start_time').val(),
+                EndTime: $('#end_time').val(),
+                AGVNum: $('#AGV_Number').val(),
+                taskComplete: $("#taskComplete").val(),
+                Log_Time: $("#tasklog_time").val(),
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+</script>

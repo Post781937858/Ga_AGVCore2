@@ -1,0 +1,268 @@
+﻿
+@{
+    ViewBag.Title = "StatisticsData";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewBag.PageTitle = "统计数据";
+    ViewBag.PageColumn = "统计报表";
+}
+<link href="~/Content/StatisticsData.css" rel="stylesheet" />
+<ol class="breadcrumb">
+    <li><span style="color:#337ab7;">首页</span></li>
+</ol>
+<div class="Top-Count">
+    <div class="fen-left">
+        <div class="count-panel" style="width:100%;margin:0px auto;padding-top:5px;">
+            <div class="x_title">
+                <h2 style="font-size:16px;">快捷菜单</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix">
+                <div>
+                    <div class="fonyr-pou">
+                        <dl class="tent"  style="margin-top:2px;">
+                            <dt><a href="@Url.Action("Rack","Statistics")#nav1"><i class="icon-size fa fa-server"></i></a></dt>
+                            <dd>货架管理</dd>
+                        </dl>
+                        <dl class="tent"  style="margin-top:2px;">
+                            <dt><a href="@Url.Action("AGVManagement","Equipment")#nav2"><i class="icon-size fa fa-cog"></i></a></dt>
+                            <dd>AGV管理</dd>
+                        </dl>
+                        <dl class="tent tent-right"  style="margin-top:2px;">
+                            <dt><a href="@Url.Action("AGVMonitoring","AGVSystem")#nav4"><i class="icon-size fa fa-external-link-square"></i></a></dt>
+                            <dd>AGV状态</dd>
+                        </dl>
+                        <dl class="tent tent-right"  style="margin-top:2px;">
+                            <dt><a href="@Url.Action("RunningLog","Statistics")#nav3"><i class="icon-size fa fa-hourglass-2"></i></a></dt>
+                            <dd>运行日志</dd>
+                        </dl>
+                        <dl class="tent">
+                            <dt><a href="@Url.Action("TaskLog","Statistics")#nav3"><i class="icon-size fa fa-paper-plane"></i></a></dt>
+                            <dd>任务日志</dd>
+                        </dl>
+                        <dl class="tent">
+                            <dt><a href="@Url.Action("AGVMonitoring","AGVSystem")#nav4"><i class="icon-size fa fa-desktop"></i></a></dt>
+                            <dd>运行监控</dd>
+                        </dl>
+                        <dl class="tent">
+                            <dt><a href="@Url.Action("QR_Code","AGVSystem")#nav4"><i class="icon-size fa fa-qrcode"></i></a></dt>
+                            <dd>二维码</dd>
+                        </dl>
+                        <dl class="tent">
+                            <dt><a href="@Url.Action("Index","Configuration")"><i class="icon-size fa fa-map"></i></a></dt>
+                            <dd>系统配置</dd>
+                        </dl>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fen-Right">
+        <div class="count-panel" style="width:100%;margin:0px auto;padding-top:5px;">
+            <div class="x_title">
+                <h2 style="font-size:16px;">待办事项</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix" style="text-align:center">
+                <div style="padding: 5px;">
+                    <dl class="bloct-count menus" style="margin-bottom: 0px;">
+                        <dt class="bloct-cou ">待处理故障</dt>
+                        <dt class="backlog-body bloct-cou">100</dt>
+                    </dl>
+                    &nbsp;
+                    <dl class="bloct-count menus" style="margin-bottom: 0px;">
+                        <dt class="bloct-cou ">待处理故障</dt>
+                        <dt class="backlog-body bloct-cou">10</dt>
+                    </dl>
+                </div>
+                <div style="padding: 5px;">
+                    <dl class="bloct-count menus" style="margin-bottom: 0px;">
+                        <dt class="bloct-cou">待处理故障</dt>
+                        <dt class="backlog-body bloct-cou">5</dt>
+                    </dl>
+                    &nbsp;
+                    <dl class="bloct-count menus" style="margin-bottom: 0px;">
+                        <dt class="bloct-cou ">待处理故障</dt>
+                        <dt class="backlog-body bloct-cou">6</dt>
+                    </dl>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="coun-right">
+    <div class="count-panel" style="width:100%;margin:0px auto;height:265px;padding-top:5px;">
+        <div class="x_title">
+            <h2 style="font-size:16px;">网络状态</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix">
+            <table class="table table-bordered">
+                <tr>
+                    <td width="180" style="font-size:15px;text-align:center;color:#808080">监听IP</td>
+                    <td style="font-size:16px;text-align:center;color: #0565b7" id="Address">-</td>
+                </tr>
+                <tr>
+                    <td width="180" style="font-size:15px;text-align:center;color:#808080">监听端口</td>
+                    <td style="font-size:16px;text-align:center;color: #0565b7;" id="Port">-</td>
+                </tr>
+                <tr>
+                    <td width="180" style="font-size:15px;text-align:center;color:#808080">最大连接数</td>
+                    <td style="font-size:16px;text-align:center;color: #0565b7;" id="maxConnect">-</td>
+                </tr>
+                <tr>
+                    <td width="180" style="font-size:15px;text-align:center;color:#808080">在线数量</td>
+                    <td style="font-size:16px;text-align:center;color: #0565b7;" id="OnClientCount">-</td>
+                </tr>
+                <tr>
+                    <td width="180" style="font-size:15px;text-align:center;color:#808080">连接状态</td>
+                    <td style="font-size:16px;text-align:center;color: #0565b7;" id="IsRunning">-</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="count-main-left" id="container">
+
+</div>
+@*<div class="count-main-right" id="containers">
+
+    </div>*@
+<script>
+    var chart = Highcharts.chart('container', {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: '运行统计'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月',
+                '七月', '八月', '九月', '十月', '十一月', '十二月']
+        },
+        yAxis: {
+            title: {
+                text: '任务数/距离'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value;
+                }
+            }
+        },
+        tooltip: {
+            crosshairs: true,
+            shared: true
+        },
+        plotOptions: {
+            spline: {
+                marker: {
+                    radius: 4,
+                    lineColor: '#666666',
+                    lineWidth: 1
+                }
+            }
+        },
+        series: [{
+            name: 'AGV执行任务数',
+            marker: {
+                symbol: 'square'
+            },
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 20, 23.3, 18.3, 13.9, 9.6]
+        }, {
+            name: 'AGV运行距离',
+            marker: {
+                symbol: 'diamond'
+            },
+            data: [50, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+        }]
+    });
+
+    //var chart = Highcharts.chart('containers', {
+    //    chart: {
+    //        type: 'pie',
+    //        options3d: {
+    //            enabled: true,
+    //            alpha: 45
+    //        }
+    //    },
+    //    title: {
+    //        text: '简数科技每周水果消耗量'
+    //    },
+    //    subtitle: {
+    //        text: ''
+    //    },
+    //    plotOptions: {
+    //        pie: {
+    //            innerSize: 100,
+    //            depth: 45
+    //        }
+    //    },
+    //    series: [{
+    //        name: '货物金额',
+    //        data: [
+    //            ['香蕉', 8],
+    //            ['猕猴桃', 3],
+    //            ['桃子', 1],
+    //            ['橘子', 6],
+    //            ['苹果', 8],
+    //            ['梨', 4],
+    //            ['柑橘', 4],
+    //            ['橙子', 1],
+    //            ['葡萄 (串)', 1]
+    //        ]
+    //    }]
+    //});
+    agvinfo();
+
+    var updates = setInterval(function () {
+        agvinfo();
+    }, 800);
+
+    function agvinfo() {
+        $.ajax({
+            type: 'post',
+            url: '/api/Services/Socket',
+            contentType: 'application/json',
+            datatype: 'json',
+            success: function (res) {
+                if (res.Address != "0") {
+                    $('#Address').text(res.Address);
+                    $('#Port').text(res.Port);
+                    $('#maxConnect').text(res.maxConnect);
+                    if (res.IsRunning) {
+                        $('#IsRunning').text("监听中");
+                    }
+                    else {
+                        $('#IsRunning').text("断开");
+                    }
+                    $('#OnClientCount').text(res.OnClientCount);
+                } else {
+                    $('#Address').text('-');
+                    $('#Port').text('-');
+                    $('#maxConnect').text('-');
+                    $('#IsRunning').text('-');
+                    $('#OnClientCount').text('-');
+                    clearInterval(updates);
+                }
+            },
+            error: function (e) {
+                toastr.error(e.responseText);
+                clearInterval(updates);
+            }
+        });
+    }
+
+</script>
+
+
+
